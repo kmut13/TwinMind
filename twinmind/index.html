@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TwinMind Copilot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header id="header">
+    <span class="logo">TwinMind</span>
+    <div class="header-spacer"></div>
+    <button class="header-btn" id="export-btn">⬇ Export</button>
+    <button class="header-btn" id="settings-btn">⚙ Settings</button>
+  </header>
+
+  <!-- ── Left: Transcript ──────────────────────────────────────────────── -->
+  <section class="column" id="transcript-column">
+    <div class="col-header">
+      <span class="col-title">Transcript</span>
+      <button id="mic-btn">
+        <span class="rec-dot"></span>
+        <span class="mic-icon">🎙</span>
+        <span class="mic-label">Record</span>
+      </button>
+    </div>
+    <div class="col-body">
+      <div id="transcript-text"></div>
+      <div class="empty-state" id="transcript-empty">
+        Hit Record to begin.<br/>
+        <span class="hint">Transcript appears here as you speak.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Middle: Suggestions ───────────────────────────────────────────── -->
+  <section class="column" id="suggestions-column">
+    <div class="col-header">
+      <span class="col-title">Live Suggestions</span>
+      <button id="refresh-btn">↻ Refresh</button>
+    </div>
+    <div class="col-body" id="suggestions-container">
+      <div class="empty-state">
+        Suggestions appear here every ~30s.<br/>
+        <span class="hint">Or tap Refresh to generate now.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Right: Chat ────────────────────────────────────────────────────── -->
+  <section class="column" id="chat-column">
+    <div class="col-header">
+      <span class="col-title">Chat</span>
+    </div>
+    <div id="chat-messages">
+      <div class="empty-state">
+        Click a suggestion or ask anything.<br/>
+        <span class="hint">Full transcript context is included.</span>
+      </div>
+    </div>
+    <div id="chat-input-area">
+      <textarea id="chat-input" placeholder="Ask anything about the conversation…" rows="1"></textarea>
+      <button id="chat-send">Send</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ── Error Toast ────────────────────────────────────────────────────────── -->
+<div id="error-toast"></div>
+
+<!-- ── Settings Modal ─────────────────────────────────────────────────────── -->
+<div id="settings-modal">
+  <div class="modal-box">
+    <div class="modal-title">⚙ Settings</div>
+
+    <div class="form-group">
+      <label class="form-label" for="s-api-key">Groq API Key</label>
+      <input class="form-input" id="s-api-key" type="password" placeholder="gsk_..." />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="s-suggestion-ctx">Suggestion Context Window (words)</label>
+      <input class="form-input" id="s-suggestion-ctx" type="number" min="100" max="2000" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="s-chat-ctx">Chat Context Window (words)</label>
+      <input class="form-input" id="s-chat-ctx" type="number" min="500" max="8000" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="s-suggestion-prompt">Live Suggestion Prompt</label>
+      <textarea class="form-textarea" id="s-suggestion-prompt" rows="8"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="s-chat-prompt">Chat / Detail Answer Prompt</label>
+      <textarea class="form-textarea" id="s-chat-prompt" rows="5"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="settings-cancel">Cancel</button>
+      <button class="btn-save" id="settings-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { boot } from "./ui.js";
+  boot();
+
+  // Auto-expand chat textarea
+  const ta = document.getElementById("chat-input");
+  ta.addEventListener("input", () => {
+    ta.style.height = "auto";
+    ta.style.height = Math.min(ta.scrollHeight, 120) + "px";
+  });
+
+  // Cancel button
+  document.getElementById("settings-cancel").addEventListener("click", () => {
+    document.getElementById("settings-modal").classList.remove("open");
+  });
+
+  // Close modal on backdrop click
+  document.getElementById("settings-modal").addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) {
+      e.currentTarget.classList.remove("open");
+    }
+  });
+
+  // Hide transcript empty state once text appears
+  const transcriptObs = new MutationObserver(() => {
+    const text = document.getElementById("transcript-text");
+    const empty = document.getElementById("transcript-empty");
+    if (text && text.textContent.trim()) empty?.remove();
+  });
+  transcriptObs.observe(document.getElementById("transcript-text"), { childList: true, characterData: true, subtree: true });
+</script>
+
+</body>
+</html>
