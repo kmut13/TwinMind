@@ -8,27 +8,35 @@ Build a real-time AI meeting assistant that listens to live audio, generates con
 
 
 Features <br />
-Live Transcription: Mic input with auto-updating transcript
-Suggestions: 3 context-aware suggestions refreshed every ~30s
-Chat: Click suggestions or ask questions for detailed responses
-Export: Download full session (transcript, suggestions, chat)
+<ul>
+  <li>Live Transcription: Mic input with auto-updating transcript</li>
+  <li>Suggestions: 3 context-aware suggestions refreshed every ~30s</li>
+  <li>Chat: Click suggestions or ask questions for detailed responses</li>
+  <li>Export: Download full session (transcript, suggestions, chat)</li>
+</ul>
 
 
 Tech Requirements<br />
-Groq APIs (Whisper for transcription, GPT-OSS 120B for suggestions/chat)
-User-provided API key (no hardcoding)
-Configurable prompts and settings
-Deployed web app
+<ul>
+  <li>Groq APIs (Whisper for transcription, GPT-OSS 120B for suggestions/chat)</li>
+  <li>User-provided API key (no hardcoding)</li>
+  <li>Configurable prompts and settings</li>
+  <li>Deployed web app</li>
+</ul>
 
 
 Evaluation<br />
-Suggestion quality and timing
-Prompt engineering
-Code quality and structure
-Latency and responsiveness
-Overall user experience
+<ul>
+  <li>Suggestion quality and timing</li>
+  <li>Prompt engineering</li>
+  <li>Code quality and structure</li>
+  <li>Latency and responsiveness</li>
+  <li>Overall user experience</li>
+</ul>
 
 
 Deliverables<br />
-Deployed app URL - https://papaya-centaur-67f6d7.netlify.app/
-GitHub repo with setup and explanation
+<ul>
+  <li>Deployed app URL - https://papaya-centaur-67f6d7.netlify.app/</li>
+  <li>GitHub repo with setup and explanation</li>
+</ul>
